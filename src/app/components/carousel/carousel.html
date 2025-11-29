@@ -1,0 +1,94 @@
+<!-- Main carousel container with interactive controls -->
+<div class="w-full bg-white py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Category Title -->
+    <h2 class="text-3xl font-serif font-semibold text-slate-900 mb-8 text-balance">
+      {{ title }}
+    </h2>
+
+    <!-- Carousel Wrapper -->
+    <div
+      class="relative group"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <!-- Main Carousel -->
+      <div class="overflow-hidden">
+        <div
+          #carouselTrack
+          class="flex gap-4 transition-transform duration-500 ease-in-out"
+          [style.transform]="'translateX(0%)'">
+          <!-- Loop through items and display them -->
+          @for (item of getVisibleSlice(); track item.id) {
+            <div
+              class="flex-shrink-0 w-1/4 px-2"
+            >
+              <div
+                class="bg-slate-100 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer h-64"
+              >
+                <!-- Image Container -->
+                <div class="w-full h-48 bg-slate-200 overflow-hidden">
+                  <img
+                    [src]="item.imageUrl"
+                    [alt]="item.name"
+                    class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                  />
+                </div>
+
+                <!-- Item Name -->
+                <div class="p-4 text-center">
+                  <h3 class="text-sm font-semibold text-slate-900 text-balance">
+                    {{ item.name | uppercase }}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+      </div>
+
+      <!-- Previous Button -->
+      <button
+        (click)="prevSlide()"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:translate-x-0 z-10 bg-slate-900 hover:bg-slate-800 text-white rounded-full p-2 sm:p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        aria-label="Previous slide">
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Next Button -->
+      <button
+        (click)="nextSlide()"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-0 z-10 bg-slate-900 hover:bg-slate-800 text-white rounded-full p-2 sm:p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        aria-label="Next slide">
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dots Indicator (Optional) -->
+      <div class="flex justify-center gap-2 mt-6">
+        @for (item of items; track item.id) {
+          <button
+            (click)="currentIndex.set(parseInt(item.id))"
+            [class.bg-slate-900]="currentIndex() === parseInt(item.id)"
+            [class.bg-slate-300]="currentIndex() !== parseInt(item.id)"
+            class="w-2 h-2 rounded-full transition-colors duration-300"
+            [attr.aria-label]="'Go to slide ' + (parseInt(item.id) + 1)"></button>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
