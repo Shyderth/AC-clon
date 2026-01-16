@@ -1,0 +1,17 @@
+@if (loading) {
+  <p>Cargando Usuarios...</p>
+}
+
+@if (error) {
+  <p>{{error}}</p>
+}
+@if (!loading && !error) {
+  <ul class="bg-blue-100">
+  @for (user of users; track user.id) {
+      <li>
+        <strong class="text-xl text-red-500">{{user.name}}</strong> - {{user.email}}
+      </li>
+  }
+  </ul>
+}
+
